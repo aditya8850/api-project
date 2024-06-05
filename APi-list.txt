@@ -1,0 +1,40 @@
+productcontroller
+get products- done
+add a product- done
+get one product- done
+filter product- done
+rate product -done
+add items to cart  -done
+get items of cart -done
+remove items from cart -done
+
+
+user controller 
+signup- email,name,password,typeOfUser(customer,seller) -done
+signin - (email,password) -done
+
+
+
+
+steps on how we did the application design and development
+folder structure
+route configuration
+creating apis
+different api methods
+middlewares
+route parameters
+query parameters
+testing api using postman
+securung api using JWT token
+documenting api using swagger
+CORS
+Logging
+Err Handling
+
+best practices on creating apis:
+using correct status codes
+err Handling
+input validation
+using correct rquest methodssecured apis
+use naming conventions for URL
+
