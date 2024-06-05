@@ -162,3 +162,4 @@
 {"level":"info","message":"/api/products/rate-undefined","service":"request-logging"}
 {"level":"info","message":"/api/products/-undefined","service":"request-logging"}
 {"level":"info","message":"/api/products/-undefined","service":"request-logging"}
+{"level":"info","message":"/api/products/rate-undefined","service":"request-logging"}
