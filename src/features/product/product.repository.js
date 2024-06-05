@@ -66,12 +66,49 @@ class ProductRepository {
         }
     };
 
+    // async rate(userId, productId, rating) {
+    //     try {
+    //         const db = getDB();
+    //         const collection = db.collection(this.collection);
+    //         //1.find the product
+    //         const product = await collection.findOne({ _id: new ObjectId(productId) });
+    //         //2. check if the user already rated the product
+    //         const userRating = product.ratings.find(r => r.userId === userId);
+    //         if (userRating) {
+    //             //3. update the rating
+    //             await collection.updateOne({
+    //                 _id: new ObjectId(productId), "ratings.userId": new ObjectId(userId)
+    //             }, {
+    //                 $set: {
+    //                     "ratings.$.rating": rating
+    //                 }
+    //             })
+    //         } else {
+    //             await collection.updateOne({ _id: new ObjectId(productId) }, { $push: { ratings: { userId: new ObjectId(userId), rating } } })
+    //         }
+
+    //     } catch (err) {
+    //         console.log(err);
+    //         throw new ApplicationError("Something wrong with the DB", 500)
+    //     }
+    // }
     async rate(userId, productId, rating) {
         try {
             const db = getDB();
-            const collection= db.collection(this.collection);
-           
-            collection.updateOne({_id:new ObjectId(productId)},{$push:{ratings:{userId:new ObjectId(userId),rating}}})
+            const collection = db.collection(this.collection);
+            //1.remove exisiting entry
+            await collection.updateOne({
+                _id: new ObjectId(productId)
+            }, {
+                $pull: { ratings: { userId: new ObjectId(userId) } }
+            })
+            //2.add new entry
+            await collection.updateOne({ _id: new ObjectId(productId) },
+                {
+                    $push: { ratings: { userId: new ObjectId(userId), rating } }
+                })
+
+
         } catch (err) {
             console.log(err);
             throw new ApplicationError("Something wrong with the DB", 500)
