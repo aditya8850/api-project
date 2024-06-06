@@ -182,3 +182,7 @@
 {"level":"info","message":"/api/cartItems/6661cc76880b91f28f0b5248-undefined","service":"request-logging"}
 {"level":"info","message":"/api/cartItems/-undefined","service":"request-logging"}
 {"level":"info","message":"/api/cartItems/6661cc76880b91f28f0b5248-undefined","service":"request-logging"}
+{"level":"info","message":"/api/cartItems/-undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signin-\"seller4@ecom.com\"","service":"request-logging"}
+{"level":"info","message":"/api/cartItems/-undefined","service":"request-logging"}
+{"level":"info","message":"/api/cartItems/-undefined","service":"request-logging"}

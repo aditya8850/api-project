@@ -10,7 +10,14 @@ class CartItemsRepository {
         try {
             const db = getDB();
             const collection = db.collection(this.collection);
-            await collection.insertOne({ productId: new ObjectId(productId), userId: new ObjectId(userId), quantity })
+            //insertion
+            //we need to check if theres already a cartitem,then increment either insert
+            //update takes three parameters first is to filter , 2nd is the data to be updated and third one is options
+            await collection.updateOne({ productId: new ObjectId(productId), userId: new ObjectId(userId) },
+            {$inc:{
+                quantity:quantity
+            }},
+            {upsert:true})
         } catch (error) {
             console.error(error);
             throw new ApplicationError("something wrong with db", 500)
