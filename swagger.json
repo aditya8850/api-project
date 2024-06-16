@@ -1,80 +1,76 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "version": "1.0.0",
-        "description": "API for e-commerce application",
-        "title": "E-commerce API"
-    },
-    "servers": [
-        {
-            "url": "http://localhost:3000"
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "JWT": {
-                "in": "header",
-                "name": "Authorization",
-                "type": "apiKey"
-            }
-        }
-    },
-    "paths": {
-        "/api/users/signin": {
-            "post": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Login",
-                "description": "user login to get token",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "successful operation"
-                    },
-                    "400": {
-                        "description": "incorrect credentials"
-                    }
-                }
-            }
-        },
-        "/api/products/": {
-            "get": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Get products",
-                "description": "user get all products",
-                "security": [
-                    {
-                        "JWT": {}
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                }
-            }
-        }
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "description": "API for e-commerce application",
+    "title": "E-commerce API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
     }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      }
+    }
+  },
+  "paths": {
+    "/api/users/signin": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login",
+        "description": "user login to get token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "incorrect credentials"
+          }
+        }
+      }
+    },
+    "/api/products/": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get products",
+        "description": "user get all products",
+        "security": [
+          {
+            "JWT": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  }
 }
