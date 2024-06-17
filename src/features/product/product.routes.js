@@ -14,8 +14,14 @@ productRouter.post("/", upload.single("imageUrl"), (req, res) => {
   productController.addProduct(req, res);
 });
 productRouter.get("/filter",(req,res)=> productController.filterProducts(req,res));
-productRouter.get("/:id", (req, res) => {
+productRouter.get("/:id(\\d+)", (req, res) => {
   productController.getOneProduct(req, res);
 });
+productRouter.get("/averageprice",(req,res) => productController.averagePrice(req,res))
 productRouter.post("/rate",(req,res)=> productController.rateProduct(req,res));
+
+
+
+
+
 export default productRouter;

@@ -8,64 +8,73 @@ class ProductRepository {
     }
     async add(newProduct) {
         //logic to add new product
-        try {//db operations
+        try {
+            //db operations
             const db = getDB();
             const collection = db.collection(this.collection);
-            await collection.insertOne(newProduct)
-            return newProduct
+            await collection.insertOne(newProduct);
+            return newProduct;
         } catch (err) {
             console.log(err);
-            throw new ApplicationError("Something wrong with the DB", 500)
+            throw new ApplicationError("Something wrong with the DB", 500);
         }
-    };
+    }
 
+    
     async getAll() {
-        try {//db operations
+        try {
+            //db operations
             const db = getDB();
             const collection = db.collection(this.collection);
             const products = await collection.find().toArray();
             console.log("products:", products);
-            return products
-
+            return products;
         } catch (err) {
             console.log(err);
-            throw new ApplicationError("Something wrong with the DB", 500)
+            throw new ApplicationError("Something wrong with the DB", 500);
         }
-    };
+    }
 
+    
+    
     async get(id) {
         try {
             const db = getDB();
             const collection = db.collection(this.collection);
-            return await collection.findOne({ _id: new ObjectId(id) })
-
+            return await collection.findOne({ _id: new ObjectId(id) });
         } catch (err) {
             console.log(err);
-            throw new ApplicationError("Something wrong with the DB", 500)
+            throw new ApplicationError("Something wrong with the DB", 500);
         }
-    };
-
-    async filter(minPrice, maxPrice, category) {
+    }
+    // product should have minPrice specified and specified category
+    
+    
+    async filter(minPrice, categories) {
         try {
             const db = getDB();
             const collection = db.collection(this.collection);
-            let filterExpression = {};
+            let filterExpression = {}; //expression to be passed to the DB
             if (minPrice) {
                 filterExpression.price = { $gte: parseFloat(minPrice) };
+                // console.log(filterExpression)
             }
-            if (maxPrice) {
-                filterExpression.price = { $lte: parseFloat(maxPrice) };
+            categories = (categories.replace(/[\[\] ]/g, '').trim().split(','));
+            //   categories = JSON.parse(categories.replace);
+            if (categories) {
+                filterExpression = { $and: [{ category: { $in: categories } }, filterExpression] };
             }
-            if (category) {
-                filterExpression.category = category;
-            }
-            return await collection.find(filterExpression).toArray();
+            // return await collection.find({ '$and': [ { category }, { price: {"$gte":parseInt(minPrice)} } ] }).toArray();
+
+            return await collection.find(filterExpression).project({ price: 1, name: 1, category: 1, ratings: { $slice: 1 }, _id: 0 }).toArray(); //projection operators
         } catch (err) {
             console.log(err);
-            throw new ApplicationError("Something wrong with the DB", 500)
+            throw new ApplicationError("Something wrong with the DB", 500);
         }
-    };
+    }
 
+    
+    
     // async rate(userId, productId, rating) {
     //     try {
     //         const db = getDB();
@@ -97,22 +106,103 @@ class ProductRepository {
             const db = getDB();
             const collection = db.collection(this.collection);
             //1.remove exisiting entry
-            await collection.updateOne({
-                _id: new ObjectId(productId)
-            }, {
-                $pull: { ratings: { userId: new ObjectId(userId) } }
-            })
-            //2.add new entry
-            await collection.updateOne({ _id: new ObjectId(productId) },
+            await collection.updateOne(
                 {
-                    $push: { ratings: { userId: new ObjectId(userId), rating } }
-                })
-
-
+                    _id: new ObjectId(productId),
+                },
+                {
+                    $pull: { ratings: { userId: new ObjectId(userId) } },
+                }
+            );
+            //2.add new entry
+            await collection.updateOne(
+                { _id: new ObjectId(productId) },
+                {
+                    $push: { ratings: { userId: new ObjectId(userId), rating } },
+                }
+            );
         } catch (err) {
             console.log(err);
-            throw new ApplicationError("Something wrong with the DB", 500)
+            throw new ApplicationError("Something wrong with the DB", 500);
         }
     }
-};
+    //implementing aggregiation pipelines
+    
+    
+    
+    async averageProductPricePerCategory() {
+        try {
+            const db = getDB();
+            return await db.collection(this.collection)
+                .aggregate([
+                    { //stage:1
+                        $group: {
+                            _id: "$category",
+                            averagePrice: { $avg: "$price" },
+                        }
+                    }
+                ]).toArray()
+         
+        } catch (error) {
+            console.log(error);
+            throw new ApplicationError("Something wrong with the DB", 500);
+
+        }
+    }
+}
 export default ProductRepository;
+
+
+
+
+
+
+
+//aggregating pipelines usecases:::::
+
+   // return await db.collection(this.collection)
+            //     .aggregate([
+            //         {
+            //             $unwind: "$ratings"
+            //         },
+            //         {
+            //             $group: {
+            //                 _id: "$_id",
+            //                 averageRating: { $avg: "$ratings.rating" }
+            //             }
+            //         }
+            //     ]).toArray()
+
+// ratings count:
+
+// db.products.aggregate([
+//     {
+//         $project: {
+//             name: 1, countOfRatings: {
+//                 $cond: {
+//                     if: { $isArray: "$ratings" }, then: { $size: "$ratings" }, else: 0  } } }
+//     }
+// ])
+
+
+
+
+
+
+//product with highest number of ratings:
+
+// db.products.aggregate([
+//     { //project the name of product ,and countOfRatings
+//         $project: {
+//             name: 1, countOfRatings: {
+//                 $cond: {
+//                     if: { $isArray: "$ratings" }, then: { $size: "$ratings" }, else: 0  } } }
+//     }, //sort the collection that we received
+//     {
+//         $sort: { countOfRatings: -1 }
+//     }, //limit to just one item in result
+//     {
+//         $limit:1
+//     }
+
+// ])

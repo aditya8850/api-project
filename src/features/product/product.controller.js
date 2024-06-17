@@ -49,12 +49,10 @@ export class ProductController {
   async filterProducts(req, res) {
     try {
       const minPrice = req.query.minPrice;
-      const maxPrice = req.query.maxPrice;
-      const category = req.query.category;
+      const categories = req.query.category;
       const result = await this.productRepository.filter(
         minPrice,
-        maxPrice,
-        category,
+        categories
       );
       res.status(200).send(result);
     } catch (err) {
@@ -71,7 +69,18 @@ export class ProductController {
       await this.productRepository.rate(userId, productId, rating);
       res.status(200).send("Rating added successfully");
     } catch (err) {
-      return res.status(400).send(err.message);
+      console.log(err);
+      throw new ApplicationError("Something wrong ", 400);
+    }
+  }
+  async averagePrice(req,res,next){
+    try {
+      const result = await this.productRepository.averageProductPricePerCategory()
+      return res.status(200).send(result)
+    } catch (error) {
+      console.log(error);
+      throw new ApplicationError("Something wrong ", 400);
+
     }
   }
 }
