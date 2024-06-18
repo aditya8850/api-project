@@ -1,0 +1,15 @@
+place order.
+
+all the db operation which an ecom app performs to place the order
+
+1. get cart items of the user, and calculate the totalAmount to be charged
+2. create a record for the order.
+3. reduce the stock(products quantity) || update the inventory
+4. clear the cart
+if any of these operations failed , we'd like to invalidate the entire steps.
+to perform all these operations together as a single unit we have a feature called TRANSACTIONS in mongodb.
+
+
+5. deduct the payment
+6. inform about the order to sellers
+7. inform the courrier
