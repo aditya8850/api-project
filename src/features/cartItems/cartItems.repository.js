@@ -51,7 +51,6 @@ export default class CartItemsRepository {
             const db = getDB();
             const collection = db.collection(this.collection)
             const id = await this.getNextCounter(db);
-            console.log("ID",id);
             // find the document
             // either insert or update
             // Insertion.
