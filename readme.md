@@ -31,7 +31,20 @@ Endpoints
 Example Endpoint
 URL: /api/example
 Method: GET
-Description: An example endpoint.
+
+
+Contributing
+Guidelines for contributing to the project:
+
+-Fork the repository.
+-Create a new branch.
+-Make your changes.
+-Submit a pull request.
+
+
+License
+This project is licensed under the ISC License.
+
 
 
 
