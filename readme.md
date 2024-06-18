@@ -10,3 +10,13 @@ To install the dependencies and set up the project, run:
 
 ```bash
 npm install
+
+
+## Usage
+To start the server, use:
+
+```bash
+npm start
+
+## Project Structure
+A brief overview of the project structure:
