@@ -1,4 +1,4 @@
-# API Project
+# Backend E- comm API project
 
 ## Description
 
@@ -27,7 +27,7 @@ api_project/
 │   ├── controllers/     # API controllers
 │   ├── models/          # Data models
 │   ├── routes/          # API routes
-│   └── index.js         # Entry point of the application
+└── index.js             # Entry point of the application   
 ├── package.json         # Project configuration and dependencies
 └── README.md            # Project documentation
 
