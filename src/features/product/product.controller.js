@@ -18,13 +18,13 @@ export class ProductController {
 
   async addProduct(req, res) {
     try {
-      const { name, price, sizes } = req.body;
+      const { name, desc, price,category, sizes } = req.body;
       const newProduct = new ProductModel(
         name,
-        null,
+        desc,
         parseFloat(price),
         req.file.filename,
-        null,
+        category.split(","),
         sizes.split(","),
       );
       const createdRecord = await this.productRepository.add(newProduct);

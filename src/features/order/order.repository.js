@@ -7,40 +7,44 @@ export default class OrderRepository {
         this.collection = "orders";
     }
     async placeOrder(userId) {
+        const client = getClient();
+        const session = client.startSession();
         try {///setting up transactions feature:
-            const client = getClient();
-            const session = client.startSession();
-            const db = getDB();
+
             session.startTransaction();
             // 1.get the cartItems, and calculate the total amount.
-            const items = await this.getTotalAmount(userId,session);
+            const items = await this.getTotalAmount(userId, session);
             const finalTotalAmount = items.reduce((acc, item) => {
                 return acc += item.totalAmount;
             }, 0)
-            console.log("final amount",finalTotalAmount)
+            console.log("final amount", finalTotalAmount)
             // 2.create an order record.
+            const db = getDB();
             const newOrder = new OrderModel(new ObjectId(userId), finalTotalAmount, new Date());
-            await db.collection(this.collection).insertOne(newOrder,{session})
+            await db.collection(this.collection).insertOne(newOrder, { session })
             // 3. reduce the stock.
             for (let item of items) {
                 await db.collection("products").updateOne(
-                    {_id: item.productId},
-                    {$inc:{stock: -item.quantity}},{session}
+                    { _id: item.productId },
+                    { $inc: { stock: -item.quantity } }, { session }
                 )
             }
             // 4. clear the cart items.
             await db.collection("cartItems").deleteMany({
                 userId: new ObjectId(userId)
-            },{session})
+            }, { session });
+            await session.commitTransaction();
+            session.endSession();
             return;
         } catch (err) {
+            await session.abortTransaction();
             console.log(err);
             throw new ApplicationError("Something went wrong while placing order.", 500)
         }
 
     }
 
-    async getTotalAmount(userId,session) {
+    async getTotalAmount(userId, session) {
         //get the cart items for the user
         const db = getDB();
         const items = await db.collection("cartItems").aggregate([
@@ -72,7 +76,7 @@ export default class OrderRepository {
                 }
             }
 
-        ],{session}).toArray()
+        ], { session }).toArray()
         return items;
 
     }

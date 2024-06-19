@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../../config/mongodb.js";
+import ApplicationError from "../../error-handler/applicationError.js";
 
 
 export default class CartItemsRepository {
@@ -51,6 +52,8 @@ export default class CartItemsRepository {
             const db = getDB();
             const collection = db.collection(this.collection)
             const id = await this.getNextCounter(db);
+              // Validate quantity
+        
             // find the document
             // either insert or update
             // Insertion.

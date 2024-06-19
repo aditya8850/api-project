@@ -1,5 +1,6 @@
 import CartIemModel from './cartItems.model.js';
 import CartItemsRepository from './cartItems.repository.js';
+import ApplicationError from '../../error-handler/applicationError.js';
 
 export class CartItemsController {
 
