@@ -3,8 +3,9 @@ import ApplicationError from "../error-handler/applicationError.js";
 // import dotenv from "dotenv";
 // dotenv.config();
 let client;
-export const connectToMongoDB=()=>{
-    MongoClient.connect(process.env.DB_URL)
+
+export const connectToMongoDB=async ()=>{
+    await MongoClient.connect(process.env.DB_URL)
     .then(clientInstance=>{
         client= clientInstance;
         console.log("mongodb is connected");
@@ -15,6 +16,8 @@ export const connectToMongoDB=()=>{
         console.log(err);
     })
 }
+
+
 export const getClient = ()=>{
     return client;
 }

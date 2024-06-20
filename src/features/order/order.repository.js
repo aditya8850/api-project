@@ -6,14 +6,52 @@ export default class OrderRepository {
     constructor() {
         this.collection = "orders";
     }
+    //this method requires the dev to create a replica set in order to use transactions.
+    // async placeOrder(userId) {
+    //     const client = getClient();
+    //     console.log(client);
+    //     const session = client.startSession();
+    //     try {///setting up transactions feature:
+
+    //         session.startTransaction();
+    //         // 1.get the cartItems, and calculate the total amount.
+    //         const items = await this.getTotalAmount(userId, session);
+    //         const finalTotalAmount = items.reduce((acc, item) => {
+    //             return acc += item.totalAmount;
+    //         }, 0)
+    //         console.log("final amount", finalTotalAmount)
+    //         // 2.create an order record.
+    //         const db = getDB();
+    //         const newOrder = new OrderModel(new ObjectId(userId), finalTotalAmount, new Date());
+    //         await db.collection(this.collection).insertOne(newOrder, { session })
+    //         // 3. reduce the stock.
+    //         for (let item of items) {
+    //             await db.collection("products").updateOne(
+    //                 { _id: item.productId },
+    //                 { $inc: { stock: -item.quantity } }, { session }
+    //             )
+    //         }
+    //         // 4. clear the cart items.
+    //         await db.collection("cartItems").deleteMany({
+    //             userId: new ObjectId(userId)
+    //         }, { session });
+    //         await session.commitTransaction();
+    //         session.endSession();
+    //         return;
+    //     } catch (err) {
+    //         await session.abortTransaction();
+    //         console.log(err);
+    //         throw new ApplicationError("Something went wrong while placing order.", 500)
+    //     }
+
+    // }
+
     async placeOrder(userId) {
-        const client = getClient();
-        const session = client.startSession();
+        
         try {///setting up transactions feature:
 
-            session.startTransaction();
             // 1.get the cartItems, and calculate the total amount.
-            const items = await this.getTotalAmount(userId, session);
+            const items = await this.getTotalAmount(userId);
             const finalTotalAmount = items.reduce((acc, item) => {
                 return acc += item.totalAmount;
             }, 0)
@@ -21,23 +59,20 @@ export default class OrderRepository {
             // 2.create an order record.
             const db = getDB();
             const newOrder = new OrderModel(new ObjectId(userId), finalTotalAmount, new Date());
-            await db.collection(this.collection).insertOne(newOrder, { session })
+            await db.collection(this.collection).insertOne(newOrder, )
             // 3. reduce the stock.
             for (let item of items) {
                 await db.collection("products").updateOne(
                     { _id: item.productId },
-                    { $inc: { stock: -item.quantity } }, { session }
+                    { $inc: { stock: -item.quantity } }
                 )
             }
             // 4. clear the cart items.
             await db.collection("cartItems").deleteMany({
                 userId: new ObjectId(userId)
-            }, { session });
-            await session.commitTransaction();
-            session.endSession();
+            });
             return;
         } catch (err) {
-            await session.abortTransaction();
             console.log(err);
             throw new ApplicationError("Something went wrong while placing order.", 500)
         }
