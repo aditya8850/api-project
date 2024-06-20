@@ -469,3 +469,4 @@
 {"level":"info","message":"/api/cartItems-undefined","service":"request-logging"}
 {"level":"info","message":"/api/cartItems-undefined","service":"request-logging"}
 {"level":"info","message":"/api/orders-undefined","service":"request-logging"}
+{"level":"info","message":"/api/orders-undefined","service":"request-logging"}
