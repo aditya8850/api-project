@@ -1,36 +1,34 @@
+import mongoose from "mongoose";
+//import model to use from the schema file
+import { UserSchemaModel } from "./user.schema.js";
 import ApplicationError from "../../error-handler/applicationError.js";
-import { getDB } from "../../config/mongodb.js";
-class UserRepository {
-    constructor(){
-        this.collection="users"
-    }
-     async signUp(newUser) {
-        // now in order to store the data in a db
-        try {
-            //1. get the database
-            const db = getDB();
-            //2. get the collection
-            const collection = db.collection(this.collection);
-            //3. insert the user into the collection
-            await collection.insertOne(newUser);
-            return newUser;
-        } catch (err) {
-            console.log(err);
-            throw new ApplicationError("something went wrong with db", 500)
-        }
 
+
+export default class UserRepository{
+    async signUp(user){
+        try {
+            const newUser = new UserSchemaModel(user);
+            await newUser.save();
+            return newUser
+        } catch (error) {
+            console.log(error);
+            throw new ApplicationError("Something went wrong while registering",400)
+        }
+    }
+
+    async signIn(email,password){
+        try {
+            return await UserSchemaModel.findOne({email,password})
+        } catch (error) {
+            console.log(error);
+            throw new ApplicationError("Error loggingin!",400)
+
+        }
     }
     async findByEmail(email) {
         // now in order to store the data in a db
         try {
-            //1. get the database
-            const db = getDB();
-            //2. get the collection
-            const collection = db.collection('users');
-            //3. find the document
-            return await collection.findOne({email});
-         
-            
+            return await UserSchemaModel.findOne({email});
         } catch (err) {
             console.log(err);
             throw new ApplicationError("something went wrong with db", 500)
@@ -38,4 +36,3 @@ class UserRepository {
 
     }
 }
-export default UserRepository;

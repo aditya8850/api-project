@@ -9,8 +9,9 @@ import jwtAuth from "./src/middlewares/jwt.middleware.js";
 import apiDocs from "./swagger.json" assert {type:"json"}
 import loggerMiddleware from "./src/middlewares/logger.middleware.js";
 import ApplicationError from "./src/error-handler/applicationError.js";
-import {connectToMongoDB} from "./src/config/mongodb.js";
+// import {connectToMongoDB} from "./src/config/mongodb.js";
 import orderRouter from "./src/features/order/order.router.js";
+import { connectUsingMongoose } from "./src/config/mongooseConfig.js";
 
 //  create server
 const server = express();
@@ -44,9 +45,9 @@ server.use((err,req,res,next)=>{
 })
 
 // specify port 
-server.listen(3000, () => {
-    console.log('Server is running on port 3000');
-    connectToMongoDB()
+server.listen(8000, () => {
+    console.log('Server is running on port 8000');
+    connectUsingMongoose()
     
 });
 

@@ -470,3 +470,13 @@
 {"level":"info","message":"/api/cartItems-undefined","service":"request-logging"}
 {"level":"info","message":"/api/orders-undefined","service":"request-logging"}
 {"level":"info","message":"/api/orders-undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signup-\"john.doe@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signup-\"john.doe@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signup-\"john.doe@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signup-\"john.doe@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signup-\"christy.evans@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signin-\"christy.evans@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signin-\"christy.evans@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signin-\"christy.evans@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/products-\"christy.evans@gmail.com\"","service":"request-logging"}
+{"level":"info","message":"/api/products-\"christy.evans@gmail.com\"","service":"request-logging"}

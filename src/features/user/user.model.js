@@ -11,22 +11,5 @@ export default class UserModel {
     }
    
     
-    static getAll() {
-        return users;
-    }
-
+   
 }
-var users = [{
-    id: 1,
-    name: "Seller User",
-    email: "seller@ecom.com",
-    password: "password1",
-    type: 'seller'
-}, {
-    id: 2,
-    name: "Customer User",
-    email: "customer@ecom.com",
-    password: "password",
-    type: 'customer'
-},
-];
