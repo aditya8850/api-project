@@ -6,11 +6,10 @@ export const cartItemsSchema = new mongoose.Schema({
         ref:'Product'
     },
     userdId:{
-        type:mongoose.
-        Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
     quantity:{
-        type:Number
+        type:Number 
     }
 })

@@ -12,14 +12,25 @@ export const productSchema = new mongoose.Schema({
         required: true,
     },
     imageUrl: {
-        type: String,
-        required: true
+        type: String
     },
-    category: {
-        type: Array,
-        required: true
+    // category: {
+    //     type: Array,
+    //     required: true
+    // },
+    sizes: {
     },
-    sizes:{
-    },
-    inStock: Number
+    inStock: Number,
+    reviews: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ],
+    categories:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category"
+        }
+    ]
 })

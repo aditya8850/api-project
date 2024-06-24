@@ -4,6 +4,13 @@ export default class OrderController {
     constructor() {
         this.orderRepository = new OrderRepository;
     }
+    async getAll(req,res,next){
+        try {
+            
+        } catch (error) {
+            throw new ApplicationError("something went wrong",400)
+        }
+    }
     async placeOrder(req, res, next) {
         try {
             const userId = req.userId;

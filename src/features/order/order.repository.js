@@ -115,4 +115,13 @@ export default class OrderRepository {
         return items;
 
     }
+
+    async getAllOrders(userId){
+        try {
+            
+        } catch (error) {
+            console.log(error);
+            throw new ApplicationError("Something went wrong while fetching userDetails from the DB")
+        }
+    }
 }

@@ -18,14 +18,14 @@ export class ProductController {
 
   async addProduct(req, res) {
     try {
-      const { name, desc, price,category, sizes } = req.body;
+      const { name, desc, price, categories, sizes } = req.body;
       const newProduct = new ProductModel(
         name,
         desc,
         parseFloat(price),
-        req.file.filename,
-        category.split(","),
-        sizes.split(","),
+        req?.file?.filename,
+        categories,
+        sizes?.split(",")
       );
       const createdRecord = await this.productRepository.add(newProduct);
       res.status(201).send(createdRecord);
@@ -61,19 +61,19 @@ export class ProductController {
     }
   }
 
- async rateProduct(req, res) {
+  async rateProduct(req, res) {
     const userId = req.userId;
     const productId = req.body.productId;
     const rating = req.body.rating;
     try {
-      await this.productRepository.rate(userId, productId, rating);
+      const product = await this.productRepository.rate(userId, productId, rating);
       res.status(200).send("Rating added successfully");
     } catch (err) {
       console.log(err);
       throw new ApplicationError("Something wrong ", 400);
     }
   }
-  async averagePrice(req,res,next){
+  async averagePrice(req, res, next) {
     try {
       const result = await this.productRepository.averageProductPricePerCategory()
       return res.status(200).send(result)
