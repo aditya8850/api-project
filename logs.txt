@@ -575,3 +575,5 @@
 {"level":"info","message":"/api/products/-undefined","service":"request-logging"}
 {"level":"info","message":"/api/products/-undefined","service":"request-logging"}
 {"level":"info","message":"/api/products/-undefined","service":"request-logging"}
+{"level":"info","message":"/api/books-undefined","service":"request-logging"}
+{"level":"info","message":"/api/books/6674adb6a369734606f712cf-undefined","service":"request-logging"}
