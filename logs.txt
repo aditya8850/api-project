@@ -40,3 +40,6 @@
 {"level":"info","message":"/api/likes-undefined","service":"request-logging"}
 {"level":"info","message":"/api/likes-undefined","service":"request-logging"}
 {"level":"info","message":"/api/likes-undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/register-undefined","service":"request-logging"}
+{"level":"info","message":"/api/users/signin-\"gaurav.tripathi1010@codingninjas.com\"","service":"request-logging"}
+{"level":"info","message":"/api/users/signup-\"gaurav.tripathi1010@codingninjas.com\"","service":"request-logging"}

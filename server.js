@@ -56,7 +56,7 @@ server.use((err,req,res,next)=>{
 })
 
 // specify port 
-const port = 8000
+const port = 5000
 server.listen(port, () => {
     console.log('Server is running on port: ',port);
     connectUsingMongoose()
